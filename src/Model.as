@@ -11,6 +11,7 @@ package
 	public class Model
 	{
 		protected var _obj:Pivot3D;
+		private var _mat:Material3D = null;
 		
 		public function Model()
 		{
@@ -92,7 +93,24 @@ package
 		
 		public function SetTexture( src:String, engine:Engine ):void
 		{
+			/*_obj.forEach( function addEvent( mesh:Mesh3D ):void
+			{
+				mesh.setMaterial( engine.GetTexture( src ) );
+			}, Mesh3D );*/
+			/*var temp:Material3D; 
+			temp = engine.GetTexture( src ).clone();*/
 			_obj.setMaterial( engine.GetTexture( src ) );
+			
+			/*
+			temp.name="material";
+			if( _mat == null )
+				_obj.setMaterial( temp );
+			else
+				_obj.replaceMaterial( temp, _obj.getMaterialByName("material"));
+			temp = _obj.getMaterialByName("material");
+			temp.upload( engine.GetScene() );
+			
+			_mat = temp;*/
 		}
 	}
 }

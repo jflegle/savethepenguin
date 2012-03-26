@@ -19,7 +19,7 @@ package
 	//Wraps the engine interface into an easy to use and easy to replace class
 	public class Engine
 	{
-		private var _scene:Scene3D; // Viewer3D for debug camera
+		private var _scene:/*Viewer3D;//*/Scene3D; // Viewer3D for debug camera
 		private var _modelList:Array = new Array(); // hold all the loaded models
 		private var _shaderList:Array = new Array(); // hold all the textures
 		
@@ -31,7 +31,7 @@ package
 		public function Initialize(container:DisplayObjectContainer, x:int, y:int, debug:Boolean=false):void
 		{
 			// creates a new 3d scene.
-			_scene = new Scene3D( container ); // Viewer3D for debug camera
+			_scene = new Scene3D( container );//new Viewer3D( container ); // Viewer3D for debug camera
 			_scene.antialias = 2;
 			_scene.setLayerSortMode(10, Scene3D.SORT_BACK_TO_FRONT); // alpha layer
 			if(debug)
@@ -57,7 +57,7 @@ package
 			}
 		}
 		
-		public function GetScene( ):Scene3D // Viewer3D for debug camera
+		public function GetScene( ):/*Viewer3D//*/Scene3D // Viewer3D for debug camera
 		{
 			return _scene;
 		}
@@ -78,11 +78,9 @@ package
 		
 		public function LoadNormalTexture( src:String, normal:String, name:String ):void
 		{
-			var shader:Shader3D = new Shader3D(  name, null, false);
-			shader.filters.push( new TextureFilter(new Texture3D( src ) ) );
+			var shader:Shader3D = new Shader3D(  name, null, true, Shader3D.VERTEX_NORMAL);
+			shader.filters.push( new TextureFilter( new Texture3D( src ) ) );
 			//shader.filters.push( new NormalMapFilter(new Texture3D( normal ) ) );
-			//shader.filters.push( new SpecularFilter( ) );
-			//shader.filters.push( new EnvironmentFilter( new Texture3D( "http://wiki.flare3d.com/demos/resources/reflections.jpg" ), BlendMode.MULTIPLY, 1.5 ) );
 			//shader.filters[1].repeatX = 4;
 			//shader.filters[1].repeatY = 4;
 			shader.build();
@@ -92,12 +90,12 @@ package
 		
 		public function LoadAlphaTexture( src:String, name:String, alpha:Number=1.0 ):void
 		{
-			var shader:Shader3D = new Shader3D( name, null, false, Shader3D.VERTEX_SKIN );
+			/*var shader:Shader3D = new Shader3D( name, null, false, Shader3D.VERTEX_SKIN );
 			shader.filters.push( new TextureFilter(new Texture3D( src ) ) );
 			shader.filters.push( new AlphaMaskFilter( alpha ) );
 			shader.build();
 			shader.twoSided = true;
-			_shaderList[_shaderList.length] = { shader: shader };// other load texture values go in this object
+			_shaderList[_shaderList.length] = { shader: shader };// other load texture values go in this object*/
 		}
 		
 		public function GetTexture( name:String ):Material3D
@@ -146,7 +144,7 @@ package
 			}) )
 			{
 				// model found, clone it
-				model = model.clone();
+				model = model.clone();				
 				model.visible = true;
 				this.GetScene().addChild( model );
 				return model;
@@ -158,8 +156,7 @@ package
 		
 		public function SetLoadedCallback( func:Function ):void
 		{
-			_scene.addEventListener( Scene3D.COMPLETE_EVENT, func );
-			
+			_scene.addEventListener( Scene3D.COMPLETE_EVENT, func );			
 		}
 	}
 }

@@ -1,14 +1,16 @@
 package
 {
-	import flash.events.Event;
 	import flare.core.Camera3D;
 	import flare.core.Light3D;
 	import flare.core.Pivot3D;
 	import flare.materials.Shader3D;
 	
+	import flash.events.Event;
+	
 	public class KillerLevel extends Level
 	{
 		private var _killer:KillerWhale;
+		private var _fish:FishSchool;
 		private var _fsm:FiniteStateMachine;
 		
 		public function KillerLevel()
@@ -28,7 +30,10 @@ package
 						{
 							// set camera
 							engine.GetScene().camera = new Camera3D();
-							engine.GetScene().camera.setPosition( -100, 0, -400 );
+							// set camera
+							engine.GetScene().camera = new Camera3D();
+							engine.GetScene().camera.setPosition( -50, 658, -350 );
+							engine.GetScene().camera.lookAt( -50, 0, -20 );
 							
 							// set light
 							var light:Light3D = new Light3D();
@@ -39,12 +44,16 @@ package
 							
 							engine.SetLoadedCallback( Loaded );
 							
-							engine.LoadModel("Assets/KillerWhale.f3d", "Whale");
+							engine.LoadModel("Assets/KillerWhale(1).f3d", "Whale");
+							engine.LoadModel("Assets/SchoolOfFish.f3d", "FishModel");
 						},
 						onLoadDone: function():Object
 						{
 							_killer = new KillerWhale( engine );
-							_killer.SetPosition(0,0,-300);
+							_killer.fsm.Fire("onStart");
+							
+							_fish = new FishSchool( engine );
+							_fish.fsm.Fire("onStart");
 							
 							return _fsm.States.Game;
 						}

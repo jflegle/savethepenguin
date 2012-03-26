@@ -140,21 +140,19 @@ package
 		{
 			fsm.Fire("onWalk");
 			SetLookAt( x, 0, z );
-			Tween( {x:x, z:z}, 250, function():void
+			Tween( {x:x, z:z}, 250, function( e:Event ):void
 			{
-				if(callback!=null)callback();
-				_AnimationComplete( null );
+				if(callback!=null)callback( e );
+				_AnimationComplete( e );
 				
 			});
 		}
 		
 		protected override function _AnimationComplete( e:Event ):void
 		{
-			//_obj.stop();
-			trace("animation done");
+			//trace("animation done");
 			fsm.Fire("onAnimationDone");
-			ed.dispatchEvent( new Event("AnimationDone") );
-			
+			ed.dispatchEvent( new Event("AnimationDone") );			
 		}
 	}
 }

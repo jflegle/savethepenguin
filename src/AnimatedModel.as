@@ -17,7 +17,7 @@ package
 				
 		protected function _AnimationComplete( e:Event ):void
 		{
-			trace("done");
+			//trace("done");
 		}
 		
 		protected function _PlayAnimation( src:String, blend:int, loop:Boolean ):void
@@ -40,15 +40,14 @@ package
 			// current bug in the engine, can't use ANIMATION_STOP_MODE or animations will stop working
 			// work around : don't use ANIMATION_LOOP_MODE so I can still get ANIMATION_COMPLETE_EVENT message and manualy loop
 			// this should be fixed in next engine update
-			_obj.gotoAndPlay( src, blend, 0 );// ( loop )? Pivot3D.ANIMATION_LOOP_MODE:Pivot3D.ANIMATION_STOP_MODE ); 
+			_obj.gotoAndPlay( src, blend, 0 );//( loop )? Pivot3D.ANIMATION_LOOP_MODE:Pivot3D.ANIMATION_STOP_MODE ); 
 			
 			
 		}
 		
 		public function AddAnimation( src:String, start:Number, end:Number ):void
 		{
-			_obj.addLabel( new Label3D( src, start, end ) );
-	
+			_obj.addLabel( new Label3D( src, start, end ) );	
 		}
 	}
 }
